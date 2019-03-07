@@ -4,10 +4,10 @@ orig_dim = np.array([5,4,3,2])
 index_dim = np.array([5,4,3,2])
 
 flag = True
-count = 0
+indx_count = 0
 while flag:
     print orig_dim-index_dim
-    count += 1
+    indx_count += 1
     l =  index_dim.shape[0]
     curr_index = l-1
     while curr_index >= 0:
@@ -20,6 +20,6 @@ while flag:
     if curr_index < 0:
         break
 
-print count
+print indx_count
             
 

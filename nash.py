@@ -1,6 +1,7 @@
 #Display all nash equilibria of a n-person normal form game
 # Pure strategy nash equilibria
 import sys, os
+import copy
 import numpy as np
 import math
 input_f = sys.argv[1]
@@ -50,13 +51,42 @@ while player_action_info[index] != '}':
 action_counts.reverse()
 # print action_counts
 
-tuple_dim_list = [player_count] + action_counts
+tuple_dim_list = action_counts + [player_count]
 tup = tuple([t_count for t_count in tuple_dim_list])
 util_matrix = np.ndarray(shape=tup, dtype=float, order='C')
 
-print tuple_dim_list
-print tup
-print util_matrix
+orig_dim = np.array(tuple_dim_list)-1
+
+#print orig_dim
+index_dim = copy.deepcopy(orig_dim)
+
+flag = True
+indx_count = 0
+j=0
+while flag:
+    index = orig_dim-index_dim
+    # print index
+    util_matrix[tuple(index)] = util_list[j]
+    j = j+1
+    indx_count += 1
+    l =  index_dim.shape[0]
+    curr_index = l-1
+    while curr_index >= 0:
+        if index_dim[curr_index] > 0:
+            index_dim[curr_index] -= 1
+            break
+        else:
+            index_dim[curr_index] = orig_dim[curr_index]
+        curr_index -= 1
+    if curr_index < 0:
+        break
+
+print util_matrix[0,:,:]
+
+print util_matrix[:,0,:]
+
+print util_matrix[:,:,0]
+
 
 # # first value in matrix
 # counters = [0] * (player_count + 1)
@@ -71,7 +101,3 @@ print util_matrix
 # 	for j in range
 # 	if counters[i] < (rev_dim_list[i]-1):
 # 		counters[i] += 1
-
-
-
-	
