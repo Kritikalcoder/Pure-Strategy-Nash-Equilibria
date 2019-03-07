@@ -48,15 +48,20 @@ while player_action_info[index] != '}':
 	# List of count of actions per player
 	action_counts.append(int(player_action_info[index].strip()))
 	index+=1
-action_counts.reverse()
+# action_counts_rev = action_counts.reverse()
+action_counts_rev = copy.deepcopy(action_counts)
+action_counts_rev.reverse()
 # print action_counts
 
-tuple_dim_list = action_counts + [player_count]
+#########################################
+
+tuple_dim_list = action_counts_rev + [player_count]
 tup = tuple([t_count for t_count in tuple_dim_list])
 util_matrix = np.ndarray(shape=tup, dtype=float, order='C')
 
-orig_dim = np.array(tuple_dim_list)-1
+#############################################
 
+orig_dim = np.array(tuple_dim_list)-1
 #print orig_dim
 index_dim = copy.deepcopy(orig_dim)
 
@@ -81,12 +86,9 @@ while flag:
     if curr_index < 0:
         break
 
-print util_matrix[0,:,:]
-
-print util_matrix[:,0,:]
-
-print util_matrix[:,:,0]
-
+# print util_matrix[0,:,:]
+# print util_matrix[:,0,:]
+# print util_matrix[:,:,0]
 
 # # first value in matrix
 # counters = [0] * (player_count + 1)
@@ -101,3 +103,46 @@ print util_matrix[:,:,0]
 # 	for j in range
 # 	if counters[i] < (rev_dim_list[i]-1):
 # 		counters[i] += 1
+
+#############################################
+
+action_space_rev = np.array(action_counts_rev)-1
+action_space = np.array(action_counts) - 1
+index_space_rev = copy.deepcopy(action_space_rev)
+
+flag = True					# Flag for iterating through all the states
+
+# print action_space_rev
+while flag:
+    index = action_space_rev - index_space_rev
+    nash_flag = 1
+    for plr in range(player_count):
+    	# print plr
+    	# plr_index = np.insert(index, 0, plr)
+    	plr_index = np.append(index, plr)
+    	# print plr_index
+    	# print util_matrix.shape
+    	cur_util = util_matrix[tuple(plr_index)]
+    	# print cur_util
+    	act_index = copy.deepcopy(plr_index)
+    	for act in range(action_space[plr]):
+    		act_index[player_count - plr_index - 1] = act
+    		if cur_util < util_matrix[tuple(act_index)]:
+    			nash_flag = 0
+    			break
+
+    if nash_flag == 1:
+    	result = index[::-1]
+    	print result
+
+    l =  index_space_rev.shape[0]
+    curr_index = l-1
+    while curr_index >= 0:
+        if index_space_rev[curr_index] > 0:
+            index_space_rev[curr_index] -= 1
+            break
+        else:
+            index_space_rev[curr_index] = action_space_rev[curr_index]
+        curr_index -= 1
+    if curr_index < 0:
+        break
