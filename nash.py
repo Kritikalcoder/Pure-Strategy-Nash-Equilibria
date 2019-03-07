@@ -38,7 +38,7 @@ while player_action_info[index] != '}':
 	else:
 		# print player_action_info[index]
 		players.append(int(player_action_info[index].strip('\"')))
-print players
+# print players
 
 player_count = len(players)
 index += 2
@@ -48,11 +48,15 @@ while player_action_info[index] != '}':
 	action_counts.append(int(player_action_info[index].strip()))
 	index+=1
 action_counts.reverse()
-print action_counts
+# print action_counts
 
 tuple_dim_list = [player_count] + action_counts
 tup = tuple([t_count for t_count in tuple_dim_list])
 util_matrix = np.ndarray(shape=tup, dtype=float, order='C')
+
+print tuple_dim_list
+print tup
+print util_matrix
 
 # # first value in matrix
 # counters = [0] * (player_count + 1)
