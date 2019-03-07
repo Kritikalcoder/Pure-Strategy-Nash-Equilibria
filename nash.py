@@ -19,23 +19,36 @@ for line in input_file:
 	else:
 		util_list = line.split()
 
-index = 1
+index = 0
 players = []
+
+# while player_action_info[index]!="}":
+# 	print player_action_info[index]
+# 	index+=1
+
+# print 'DONE'
+
+
 while player_action_info[index] != '}':
+	index += 1
 	# List of players
-	if player_action_info[index] == "\"Player":
+	# print player_action_info[index]
+	if player_action_info[index] == "\"Player" or player_action_info[index] == "{" or player_action_info[index] == "}":
 		continue
 	else:
+		# print player_action_info[index]
 		players.append(int(player_action_info[index].strip('\"')))
-	index += 1
+print players
 
 player_count = len(players)
-index += 1
+index += 2
 action_counts = []
 while player_action_info[index] != '}':
 	# List of count of actions per player
 	action_counts.append(int(player_action_info[index].strip()))
+	index+=1
 action_counts.reverse()
+print action_counts
 
 tuple_dim_list = [player_count] + action_counts
 tup = tuple([t_count for t_count in tuple_dim_list])
@@ -48,12 +61,12 @@ util_matrix = np.ndarray(shape=tup, dtype=float, order='C')
 # util_matrix[index_tup] = val
 
 # for dim in tuple_dim_list.reverse():
-rev_dim_list = tuple_dim_list.reverse()
-for i in range(len(rev_dim_list)):
-	counters[i] = 0
-	for j in range
-	if counters[i] < (rev_dim_list[i]-1):
-		counters[i] += 1
+# rev_dim_list = tuple_dim_list.reverse()
+# for i in range(len(rev_dim_list)):
+# 	counters[i] = 0
+# 	for j in range
+# 	if counters[i] < (rev_dim_list[i]-1):
+# 		counters[i] += 1
 
 
 
